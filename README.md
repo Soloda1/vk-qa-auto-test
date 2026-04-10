@@ -1,0 +1,1 @@
+# vk-qa-auto-test
