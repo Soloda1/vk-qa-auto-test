@@ -9,6 +9,10 @@ enum WidgetPageSelectors {
     ARTICLE_POPULAR_TITLE = '[class^=popularTitle__]',
     ARTICLE_POPULAR_LIST = `${ARTICLE_POPULAR_TITLE} + ul[class^=articles__]`,
     ARTICLE_POPULAR_LIST_ITEM = `${ARTICLE_POPULAR_LIST} > li`,
+
+    // Дополнительный тест - поиск статей по ключевым словам
+    SEARCH_INPUT = 'input[type="text"]',
+    ARTICLE_TITLE = '.title__-CRDN',
 }
 
 export class WidgetPage {
@@ -42,6 +46,19 @@ export class WidgetPage {
 
     getWidgetBody() {
         return this.page.locator(WidgetPage.selector.WIDGET_BODY);
+    }
+
+    async fillSearch(query: string) {
+        const input = this.wrapper().locator(WidgetPage.selector.SEARCH_INPUT).first();
+        await input.waitFor({ state: 'visible', timeout: 5000 });
+        await input.fill(query);
+    }
+
+    async getArticleTitles() {
+        const item = WidgetPage.selector.ARTICLE_POPULAR_LIST_ITEM;
+        const titleSel = WidgetPage.selector.ARTICLE_TITLE;
+        await this.wrapper().locator(item).first().waitFor({ state: 'visible', timeout: 5000 });
+        return this.wrapper().locator(`${item} ${titleSel}`).allTextContents();
     }
 }
 

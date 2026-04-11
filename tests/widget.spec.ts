@@ -31,4 +31,24 @@ test.describe('Uchi.ru widget ', () => {
 
     expect(await widgetPage.getTitle()).toEqual('Связь с поддержкой');
   });
+
+  // Дополнительный тест - поиск статей по ключевым словам
+  test('search suggests password recovery', async ({ page }) => {
+    await widgetPage.openWidget();
+
+    await widgetPage.fillSearch('забыл пароль');
+
+    const titles = await widgetPage.getArticleTitles();
+
+    let found = false;
+    for (const t of titles) {
+      const s = t.toLowerCase();
+      if ((s.includes('забыл') && s.includes('логин')) || (s.includes('забыл') && s.includes('пароль'))) {
+        found = true;
+        break;
+      }
+    }
+
+    expect(found).toBeTruthy();
+  });
 });
