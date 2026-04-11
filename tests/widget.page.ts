@@ -27,7 +27,7 @@ export class WidgetPage {
     async getPopularArticles() {
         //return this.wrapper().locator(WidgetPage.selector.ARTICLE_POPULAR_LIST_ITEM).all()
         const locator = this.wrapper().locator(WidgetPage.selector.ARTICLE_POPULAR_LIST_ITEM)
-        await locator.first().waitFor({ state: 'visible', timeout: 5000 });
+        await locator.first().waitFor();
         return locator.all();
     }
 
